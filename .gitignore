@@ -1,0 +1,2 @@
+# ignore .csv to make sure we can't accidentally publish info
+*.csv
