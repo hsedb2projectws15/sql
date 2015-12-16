@@ -1,3 +1,38 @@
+CREATE TABLE RAWDATA
+	( sbjNo varchar (15)
+	, sbjName varchar (60)
+	, sbjlevel varchar (5)
+	, dept varchar (5)
+	, studyPrg varchar (5)
+	, elective varchar (5)
+	, numCurr varchar (5)
+	, numSchd varchar (5)
+	, sbjNotes varchar (50)
+	, lecNo varchar (5)
+	, lecName varchar (20)
+	, lec1stn varchar (20)
+	, lecdept varchar (5)
+	, lecRoom varchar (10)
+	, lecNotes varchar (50)
+	, prof varchar (10)
+	, linkedWith varchar (20)
+	, term varchar (10)
+	, cntLec varchar (5)
+	, cntCurr varchar (5)
+	, cntSchd varchar (5)
+	, assNotes varchar (30) )
+;
+
+CREATE TABLE RAWDATA_WORKLOAD
+	( term varchar (10)
+	, name varchar (15)
+	, job_title varchar (45)
+	, reduction varchar (5) )
+;
+
+IMPORT FROM 'Sample15ws-2.csv' of del INSERT INTO "RAWDATA";
+IMPORT FROM 'Sample15ws-2wl.csv' of del INSERT INTO "RAWDATA_WORKLOAD";
+
 CREATE TABLE DEPARTMENT
 	( DEPARTMENT_SHORT varchar (255) NOT NULL
 	, DEPARTMENT_NAME varchar (255) )
