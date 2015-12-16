@@ -1,2 +1,3 @@
-# ignore .csv to make sure we can't accidentally publish info
+# ignore tables to make sure we can't accidentally publish info
 *.csv
+*.xlsx
