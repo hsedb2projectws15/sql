@@ -23,4 +23,5 @@ CREATE TABLE DataTemp
 	, cntSchd varchar (255)
 	, assNotes varchar (255) )
 ;
-IMPORT
+
+IMPORT FROM 'Sample15ws-2.csv' of del INSERT INTO "TEAM01"."DataTemp";
