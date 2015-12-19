@@ -1,3 +1,4 @@
+REM @author alriit00, damait06
 REM connect to relevant project and schema
 db2 connect to project
 db2 set schema TEAM01

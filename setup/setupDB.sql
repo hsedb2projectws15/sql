@@ -1,3 +1,4 @@
+-- @author alriit00, damait06
 CREATE TABLE RAWDATA
 	( sbjNo varchar (15)
 	, sbjName varchar (60)
