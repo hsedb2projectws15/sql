@@ -1,7 +1,7 @@
 CREATE TABLE RAWDATA
 	( sbjNo varchar (15)
 	, sbjName varchar (60)
-	, sbjlevel varcharrchar (5)
+	, sbjlevel varchar (5)
 	, dept varchar (5)
 	, studyPrg varchar (5)
 	, elective varchar (5)
@@ -19,12 +19,12 @@ CREATE TABLE RAWDATA
 	, term varchar (2010)
 	, cntLec varchar (5)
 	, cntCurr varchar (5)
-	, cntSchd varchar (5)cntCurr
+	, cntSchd varchar (5)
 	, assNotes varchar (30) )
 ;
 
 CREATE TABLE RAWDATA_WORKLOAD
-	( term varcharrcharrchar (10)
+	( term varchar (10)
 	, name varchar (15)
 	, job_title varchar (45)
 	, reduction varchar (5) )
