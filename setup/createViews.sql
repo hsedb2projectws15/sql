@@ -2,7 +2,7 @@
 ECHO "Course Planner";
 CREATE VIEW COURSE_PLANNER AS
 SELECT 	EVENT.current_semester
-		, CONCAT(CONCAT(EVENT.lecture_number, '-'), EVENT.course) AS Event_number
+		, EVENT.lecture_number AS Event_number
 		, LECTURE.lecture_name		
 		, LECTURE.pwz
 		, EVENT.event_comments
@@ -32,7 +32,7 @@ CREATE VIEW MATCHMAKER AS
 SELECT 	EVENT.course
 		, LECTURE.semester
 		, EVENT.current_semester
-		, CONCAT(CONCAT(EVENT.lecture_number, '-'), EVENT.course) AS Event_number
+		, EVENT.lecture_number AS Event_number
 		, LECTURE.lecture_name
 		, LECTURE.semester_hours_spo
 		, EVENT.semester_hours_actual
@@ -62,7 +62,7 @@ CREATE VIEW SERVICE_PLANNER AS
 SELECT 	EVENT.course
 		, LECTURE.semester
 		, EVENT.current_semester
-		, CONCAT(CONCAT(EVENT.lecture_number, '_'), EVENT.course) AS Event_number
+		, EVENT.lecture_number AS Event_number
 		, LECTURE.lecture_name
 		, LECTURE.semester_hours_spo
 		, EVENT.semester_hours_actual
