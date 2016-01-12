@@ -17,7 +17,7 @@ CREATE TABLE RAWDATA
 	, lecNotes varchar (50)
 	, prof varchar (10)
 	, linkedWith varchar (20)
-	, term varchar (2010)
+	, term varchar (10)
 	, cntLec varchar (5)
 	, cntCurr varchar (5)
 	, cntSchd varchar (5)
