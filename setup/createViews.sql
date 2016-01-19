@@ -1,87 +1,67 @@
--- @author alriit00, damait06
-ECHO "Course Planner";
+-- @author alriit00, damait06, eumuit00
+echo "----------------------------";
+echo "EXECUTE: createViews.sql";
+echo "----------------------------";
+echo "";
+ECHO "CREATE VIEW COURSE_PLANNER";
 CREATE VIEW COURSE_PLANNER AS
 SELECT 	EVENT.current_semester
-		, EVENT.lecture_number AS Event_number
-		, LECTURE.lecture_name		
+		, EVENT.lecture_number
+		, LECTURE.lecture_name	
+		, EVENT.course
+		, LECTURE.semester
 		, LECTURE.pwz
-		, EVENT.event_comments
 		, LECTURE.semester_hours_spo 
+		, LECTURE.credit_amount
 		, EVENT.semester_hours_actual
-FROM LECTURE
-FULL OUTER JOIN EVENT
-ON LECTURE.lecture_number = EVENT.lecture_number;
-
-ECHO "Workload Reduction";
-CREATE VIEW WORKLOAD_REDUCTION AS
-SELECT 	EVENT.current_semester
-		, LECTURER.name
-		, PROFESSOR.workload_red_reason
-		, PROFESSOR.workload_red_amount 
-FROM PROFESSOR
-FULL OUTER JOIN LECTURER
-ON PROFESSOR.lecturer_number = LECTURER.lecturer_number
-FULL OUTER JOIN LECTURER_EVENT
-ON LECTURER.lecturer_number = LECTURER_EVENT.lecturer_number
-FULL OUTER JOIN EVENT
-ON (LECTURER_EVENT.lecture_number = EVENT.lecture_number 
-	AND	LECTURER_EVENT.course = EVENT.course);
-	
-ECHO "Matchmaker";
-CREATE VIEW MATCHMAKER AS
-SELECT 	EVENT.course
-		, LECTURE.semester
-		, EVENT.current_semester
-		, EVENT.lecture_number AS Event_number
-		, LECTURE.lecture_name
-		, LECTURE.semester_hours_spo
-		, EVENT.semester_hours_actual
-		, LECTURE.pwz
-		, LECTURER_EVENT.schedule_workload_actual 
-		, EVENT.department_imported_from
-		, EVENT.department
-		, LECTURER_EVENT.lecturer_workload_actual
-		, LECTURER.name
 		, LECTURE.lecture_comments
-		, LECTURER.lecturer_comments
 		, EVENT.event_comments
+
 FROM LECTURE
 FULL OUTER JOIN EVENT
 ON LECTURE.lecture_number = EVENT.lecture_number
-FULL OUTER JOIN LECTURER_EVENT
-ON (EVENT.lecture_number = LECTURER_EVENT.lecture_number
-	AND EVENT.course = LECTURER_EVENT.course)
-FULL OUTER JOIN LECTURER
-ON LECTURER_EVENT.lecturer_number = LECTURER.lecturer_number
-FULL OUTER JOIN EVENT_COUPLING
-ON LECTURER_EVENT.coupling_id = EVENT_COUPLING.coupling_id
 ;
 
-ECHO "Service Planner";
-CREATE VIEW SERVICE_PLANNER AS
-SELECT 	EVENT.course
-		, LECTURE.semester
-		, EVENT.current_semester
-		, EVENT.lecture_number AS Event_number
-		, LECTURE.lecture_name
-		, LECTURE.semester_hours_spo
-		, EVENT.semester_hours_actual
-		, LECTURE.pwz
-		, LECTURER_EVENT.schedule_workload_actual 
-		, EVENT.department_imported_from
-		, EVENT.department
-		, LECTURER_EVENT.lecturer_workload_actual
-		, LECTURER.name
-		, LECTURE.lecture_comments
-		, LECTURER.lecturer_comments
-FROM LECTURE
-FULL OUTER JOIN EVENT
-ON LECTURE.lecture_number = EVENT.lecture_number
-FULL OUTER JOIN LECTURER_EVENT
-ON (EVENT.lecture_number = LECTURER_EVENT.lecture_number
-	AND EVENT.course = LECTURER_EVENT.course)
-FULL OUTER JOIN LECTURER
-ON LECTURER_EVENT.lecturer_number = LECTURER.lecturer_number
-FULL OUTER JOIN EVENT_COUPLING
-ON LECTURER_EVENT.coupling_id = EVENT_COUPLING.coupling_id
+ECHO "CREATE VIEW WORKLOAD_REDUCTION";
+CREATE VIEW WORKLOAD_REDUCTION AS
+SELECT    R.TERM
+		, (SELECT L.NAME FROM LECTURER AS L
+			WHERE L.LECTURER_NUMBER = R.LECTURER_NUMBER)
+		, R.WORKLOAD_RED_REASON
+		, R.WORKLOAD_RED_AMOUNT 
+FROM REDUCTION AS R
+WHERE R.WORKLOAD_RED_AMOUNT != 0;
+	
+ECHO "CREATE VIEW MATCHMAKER";
+CREATE VIEW MATCHMAKER AS
+SELECT
+	E.COURSE,
+	L.SEMESTER,
+	E.CURRENT_SEMESTER,
+	L.LECTURE_NUMBER,
+	L.LECTURE_NAME,
+	L.SEMESTER_HOURS_SPO,
+	L.CREDIT_AMOUNT,
+	L.PWZ,
+	E.SEMESTER_HOURS_SPO_ACTUAL,
+	E.SEMESTER_HOURS_ACTUAL,
+	E.DEPARTMENT,
+	E.DEPARTMENT_IMPORTED_FROM,
+	LE.SPLIT_WORKLOAD,
+	P.LECTURER_NUMBER,
+	P.NAME,
+	L.LECTURE_COMMENTS,
+	P.LECTURER_COMMENTS,
+	E.EVENT_COMMENTS
+FROM
+	LECTURER_EVENT AS LE
+	LEFT OUTER JOIN EVENT AS E
+		ON (LE.LECTURE_NUMBER = E.LECTURE_NUMBER AND LE.COURSE = E.COURSE)
+	LEFT OUTER JOIN LECTURE AS L
+		ON (LE.LECTURE_NUMBER = L.LECTURE_NUMBER)
+	LEFT OUTER JOIN LECTURER AS P
+		ON (LE.LECTURER_NUMBER = P.LECTURER_NUMBER)
+	LEFT OUTER JOIN EVENT_COUPLING AS EC
+		ON (LE.COUPLING_ID = EC.COUPLING_ID)
 ;
+
